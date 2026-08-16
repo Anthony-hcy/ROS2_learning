@@ -1,0 +1,13 @@
+build/
+install/
+log/
+.vscode/
+*.db
+*.db-shm
+*.db-wal
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+*.log
+.DS_Store
