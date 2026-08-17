@@ -24,7 +24,9 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'node_01 = pkg_01_node.node_01:main'
+            'node_01 = pkg_01_node.node_01:main',
+            'node_02 = pkg_01_node.node_02:main',
+            'node_03 = pkg_01_node.node_03:main'
         ],
     },
 )
