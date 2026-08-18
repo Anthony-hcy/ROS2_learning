@@ -16,9 +16,14 @@ set(srv_files
   "srv/Learningsrv.srv"
 )
 
+set(action_files
+  "action/Learningaction.action"
+)
+
 rosidl_generate_interfaces(${PROJECT_NAME}
   ${msg_files}
   ${srv_files}
+  ${action_files} 
 )
 
 
