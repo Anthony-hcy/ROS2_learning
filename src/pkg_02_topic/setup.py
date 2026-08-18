@@ -26,6 +26,8 @@ setup(
         'console_scripts': [
             'topic_01_pub = pkg_02_topic.topic_01_pub:main',
             'topic_01_sub = pkg_02_topic.topic_01_sub:main',
+            'topic_02_pub = pkg_02_topic.topic_02_pub:main',
+            'topic_02_sub = pkg_02_topic.topic_02_sub:main',
         ],
     },
 )
