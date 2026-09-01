@@ -25,6 +25,8 @@ setup(
     entry_points={
         'console_scripts': [
             'static_tf_bro = pkg_09_tf.static_tf_bro:main',
+            'dynamic_tf_bro = pkg_09_tf.dynamic_tf_bro:main',
+            'tf_listener = pkg_09_tf.tf_listener:main',
         ],
     },
 )
