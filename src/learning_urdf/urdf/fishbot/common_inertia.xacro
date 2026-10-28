@@ -1,5 +1,32 @@
 <?xml version="1.0"?>
+<!--
+  inertia_macros.xacro
+  用途：为 URDF/Xacro 中的 <link> 生成常用的 <inertial> 块（质量 + 惯性张量）。
+  说明：
+    - 所有参数单位必须为国际单位制：质量 m [kg]，长度 w/h/d/r [m]。
+    - 这些宏只生成 <mass> 和 <inertia>，不生成 <origin>。
+      若质心不在 link 原点，请在使用宏后手动补充，或额外增加 origin 参数，例如：
+        <inertial>
+          <origin xyz="0 0 0.1" rpy="0 0 0"/>
+          ...
+        </inertial>
+    - 若用于 Gazebo 仿真，惯性参数不合理会导致模型抖动、下沉甚至爆炸，
+      建议用 CAD 软件或 inertial_calculator 工具校核。
+-->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
+<!--
+      长方体惯性宏
+      参数：
+        m : 质量 [kg]
+        w : x 方向尺寸 [m]
+        h : y 方向尺寸 [m]
+        d : z 方向尺寸 [m]
+      公式（均质长方体，质心在几何中心）：
+        ixx = m/12 * (h^2 + d^2)   绕 x 轴，涉及 y、z 尺寸
+        iyy = m/12 * (w^2 + d^2)   绕 y 轴，涉及 x、z 尺寸
+        izz = m/12 * (w^2 + h^2)   绕 z 轴，涉及 x、y 尺寸
+      注意：w/h/d 命名容易混淆，使用时请对照实际模型的 x/y/z 尺寸。
+    -->
     <xacro:macro name="box_inertia" params="m w h d">
         <inertial>
             <mass value="${m}" />
@@ -7,6 +34,19 @@
         </inertial>
     </xacro:macro>
 
+<!--
+      圆柱惯性宏
+      参数：
+        m : 质量 [kg]
+        r : 半径 [m]
+        h : 高度 [m]
+      公式（均质实心圆柱，圆柱轴沿 z 轴，质心在几何中心）：
+        ixx = iyy = m/12 * (3*r^2 + h^2)
+        izz       = m/2  * r^2
+      注意：
+        - 本宏默认圆柱轴沿 z 轴。若实际模型的圆柱轴不是 z 轴，
+          需要配合 <origin rpy="..."> 旋转，否则惯性张量方向会错误。
+    -->
     <xacro:macro name="cylinder_inertia" params="m r h">
         <inertial>
             <mass value="${m}" />
@@ -14,6 +54,15 @@
         </inertial>
     </xacro:macro>
 
+<!--
+      球体惯性宏
+      参数：
+        m : 质量 [kg]
+        r : 半径 [m]
+      公式（均质实心球体，质心在球心）：
+        ixx = iyy = izz = 2/5 * m * r^2
+      注意：球体惯性张量各向同性，因此与坐标系方向无关。
+    -->
     <xacro:macro name="sphere_inertia" params="m r">
         <inertial>
             <mass value="${m}" />
